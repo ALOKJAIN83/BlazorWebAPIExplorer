@@ -3,9 +3,9 @@
 ## Overview
 
 This is a Blazor Server application using web apis to fetch and post data. 
-It calls FroneEnd api which in turn calls 2 back-end APIs in an Asynchronous manner. 
-Thease 2 back-end APIs use artificial delays to mimic a longer running operation.
-The application is designed to be modular and testable, with unit tests written using xUnit, bunit and Moq. 
+It calls frone-end api which in turn calls 2 back-end APIs in an Asynchronous manner. 
+These 2 back-end APIs use artificial delays to mimic a longer running operation.
+The application is designed to be modular and testable, with unit tests written using xUnit, bUnit and Moq. 
  
 The solution includes multiple projects:
 - `BlazorServerUI`: The main Blazor Server application.
@@ -13,13 +13,13 @@ The solution includes multiple projects:
 - `FrontEndApi`: This API supports Get/Post verbs. It calls 2 back-end APIs in an Asynchronous manner.
 - `BackEndApi1`: The API which has GET and POST opeartions and mimics a longer running operation using artificial delays.
 - `BackEndApi2`: Another API which has GET and POST opeartions and mimics a longer running operation using artificial delays.
-- `UnitTests`: Contains unit tests for controllers, services, APIs and Blazor components using xUnit, bunit and Moq.
+- `UnitTests`: Contains unit tests for controllers, services, APIs and Blazor components using xUnit, bUnit and Moq.
 
 ## Features
 
 - Fetch data from back-end APIs using front-end API
 - Post data to back-end APIs using front-end API
-- Unit tests for controllers, services, APIs and Blazor components using xUnit, bunit and Moq.
+- Unit tests for controllers, services, APIs and Blazor components using xUnit, bUnit and Moq.
 
 ## Prerequisites
 
