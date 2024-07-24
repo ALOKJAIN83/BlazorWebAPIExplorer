@@ -1,0 +1,14 @@
+@FrontEndApi_HostAddress = https://localhost:5000
+### Get API Data
+GET {{FrontEndApi_HostAddress}}/api/frontend
+Accept: application/json
+
+
+### Post API Data
+POST {{FrontEndApi_HostAddress}}/api/frontend
+Accept: application/json
+Content-Type: application/json
+
+{
+  "data": "sample data"
+}

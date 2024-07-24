@@ -1,0 +1,15 @@
+
+@BackEndApi2_HostAddress = https://localhost:5002
+### Get API Data
+GET {{BackEndApi2_HostAddress}}/api/backend2
+Accept: application/json
+
+
+### Post API Data
+POST {{BackEndApi2_HostAddress}}/api/backend2
+Accept: application/json
+Content-Type: application/json
+
+{
+  "data": "sample data"
+}

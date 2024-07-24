@@ -1,0 +1,60 @@
+﻿@page "/"
+@inject BlazorServerUI.Services.IApiService ApiService
+@rendermode InteractiveServer
+@using System.Text.Json
+
+<h2>Blazor Server Home Page</h2>
+<p>Welcome to the Blazor Server application. Use the buttons below to interact with the API and see the results.</p>
+
+<div>
+    <h3>API Interactions</h3>
+    <p>Click the buttons below to fetch data from the API or send data to the API.</p>
+    <button @onclick="GetApiData">Get API Data</button>
+    <button @onclick="PostApiData">Post API Data</button>
+</div>
+
+@if (isLoading)
+{
+    <p>Loading...</p>
+}
+else if (apiResponse != null)
+{
+    <div>
+        <h3>API Response</h3>
+        <pre>@apiResponse</pre>
+    </div>
+}
+
+@code {
+    private string? apiResponse;
+    private bool isLoading = false;
+
+    private async Task GetApiData()
+    {
+        isLoading = true;
+        try
+        {
+            var data = await ApiService.GetApiDataAsync();
+            apiResponse = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task PostApiData()
+    {
+        isLoading = true;
+        try
+        {
+            var data = "Hello from Blazor Server" ;
+            var response = await ApiService.PostApiDataAsync(data);
+            apiResponse = JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true });
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}
