@@ -9,32 +9,41 @@
 <div>
     <h3>API Interactions</h3>
     <p>Click the buttons below to fetch data from the API or send data to the API.</p>
+    <!-- Button to fetch data from the API -->
     <button @onclick="GetApiData">Get API Data</button>
+    <!-- Button to send data to the API -->
     <button @onclick="PostApiData">Post API Data</button>
 </div>
 
 @if (isLoading)
 {
+    <!-- Display loading message while data is being fetched or sent -->
     <p>Loading...</p>
 }
 else if (apiResponse != null)
 {
     <div>
         <h3>API Response</h3>
+        <!-- Display the API response -->
         <pre>@apiResponse</pre>
     </div>
 }
 
 @code {
+    // Variable to store the API response
     private string? apiResponse;
+    // Flag to indicate if a request is in progress
     private bool isLoading = false;
 
+    // Method to fetch data from the API
     private async Task GetApiData()
     {
         isLoading = true;
         try
         {
+            // Call the API service to get data
             var data = await ApiService.GetApiDataAsync();
+            // Serialize the data to JSON format for display
             apiResponse = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
         }
         finally
@@ -43,13 +52,17 @@ else if (apiResponse != null)
         }
     }
 
+    // Method to send data to the API
     private async Task PostApiData()
     {
         isLoading = true;
         try
         {
-            var data = "Hello from Blazor Server" ;
+            // Data to be sent to the API
+            var data = "Hello from Blazor Server";
+            // Call the API service to post data
             var response = await ApiService.PostApiDataAsync(data);
+            // Serialize the response to JSON format for display
             apiResponse = JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true });
         }
         finally
