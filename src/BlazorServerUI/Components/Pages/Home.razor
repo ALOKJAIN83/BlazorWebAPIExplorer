@@ -53,15 +53,23 @@ else if (apiResponse != null)
             Logger.LogInformation("Fetching data from the API...");
             // Call the API service to get data
             var data = await ApiService.GetApiDataAsync();
-            // Serialize the data to JSON format for display
-            apiResponse = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
-            Logger.LogInformation("Data fetched successfully.");
+            if (data == null)
+            {
+                errorMessage = "Failed to fetch data from the API.";
+                Logger.LogWarning("Failed to fetch data from the API.");
+            }
+            else
+            {
+                // Serialize the data to JSON format for display
+                apiResponse = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+                Logger.LogInformation("Data fetched successfully.");
+            }
         }
         catch (Exception ex)
         {
             // Handle the error and set the error message
-            errorMessage = $"An error occurred while fetching data: {ex.Message}";
-            Logger.LogError(ex, "An error occurred while fetching data.");
+            errorMessage = $"An unexpected error occurred: {ex.Message}";
+            Logger.LogError(ex, "An unexpected error occurred while fetching data.");
         }
         finally
         {
@@ -81,15 +89,23 @@ else if (apiResponse != null)
             var data = "Hello from Blazor Server";
             // Call the API service to post data
             var response = await ApiService.PostApiDataAsync(data);
-            // Serialize the response to JSON format for display
-            apiResponse = JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true });
-            Logger.LogInformation("Data sent successfully.");
+            if (response == null)
+            {
+                errorMessage = "Failed to send data to the API.";
+                Logger.LogWarning("Failed to send data to the API.");
+            }
+            else
+            {
+                // Serialize the response to JSON format for display
+                apiResponse = JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true });
+                Logger.LogInformation("Data sent successfully.");
+            }
         }
         catch (Exception ex)
         {
             // Handle the error and set the error message
-            errorMessage = $"An error occurred while sending data: {ex.Message}";
-            Logger.LogError(ex, "An error occurred while sending data.");
+            errorMessage = $"An unexpected error occurred: {ex.Message}";
+            Logger.LogError(ex, "An unexpected error occurred while sending data.");
         }
         finally
         {

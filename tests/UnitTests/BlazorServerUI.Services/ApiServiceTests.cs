@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using UnitTests.Mocks;
+using Microsoft.Extensions.Logging;
 
 namespace UnitTests.BlazorServerUI.Services
 {
@@ -50,7 +51,9 @@ namespace UnitTests.BlazorServerUI.Services
 
             _mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(_httpClient);
 
-            _apiService = new ApiService(_httpClient);
+            var mockLogger = new Mock<ILogger<ApiService>>(); // Create a mock logger
+
+            _apiService = new ApiService(_httpClient, mockLogger.Object); // Pass the mock logger
         }
 
         [Fact]
