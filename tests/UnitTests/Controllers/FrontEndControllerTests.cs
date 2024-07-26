@@ -1,6 +1,7 @@
 ﻿using FrontEndApi.Controllers;
 using FrontEndApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using System.Net.Http;
@@ -21,6 +22,7 @@ namespace UnitTests.Controllers
             _mockHttpClientFactory = new Mock<IHttpClientFactory>();
             _httpClient = new HttpClient(new MockHttpMessageHandler());
             _mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(_httpClient);
+
             var mockApiSettings = new Mock<IOptions<ApiSettings>>();
             mockApiSettings.Setup(ap => ap.Value).Returns(new ApiSettings
             {
@@ -28,7 +30,9 @@ namespace UnitTests.Controllers
                 Api2Url = "https://localhost:5002/api/backend2"
             });
 
-            _controller = new FrontEndController(_mockHttpClientFactory.Object, mockApiSettings.Object);
+            var mockLogger = new Mock<ILogger<FrontEndController>>();
+
+            _controller = new FrontEndController(_mockHttpClientFactory.Object, mockApiSettings.Object, mockLogger.Object);
         }
 
         [Fact]

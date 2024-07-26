@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject BlazorServerUI.Services.IApiService ApiService
+@inject ILogger<Home> Logger
 @rendermode InteractiveServer
 @using System.Text.Json
 
@@ -20,6 +21,11 @@
     <!-- Display loading message while data is being fetched or sent -->
     <p>Loading...</p>
 }
+else if (!string.IsNullOrEmpty(errorMessage))
+{
+    <!-- Display error message if an error occurred -->
+    <p style="color: red;">@errorMessage</p>
+}
 else if (apiResponse != null)
 {
     <div>
@@ -34,17 +40,28 @@ else if (apiResponse != null)
     private string? apiResponse;
     // Flag to indicate if a request is in progress
     private bool isLoading = false;
+    // Variable to store error messages
+    private string? errorMessage;
 
     // Method to fetch data from the API
     private async Task GetApiData()
     {
         isLoading = true;
+        errorMessage = null;
         try
         {
+            Logger.LogInformation("Fetching data from the API...");
             // Call the API service to get data
             var data = await ApiService.GetApiDataAsync();
             // Serialize the data to JSON format for display
             apiResponse = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+            Logger.LogInformation("Data fetched successfully.");
+        }
+        catch (Exception ex)
+        {
+            // Handle the error and set the error message
+            errorMessage = $"An error occurred while fetching data: {ex.Message}";
+            Logger.LogError(ex, "An error occurred while fetching data.");
         }
         finally
         {
@@ -56,14 +73,23 @@ else if (apiResponse != null)
     private async Task PostApiData()
     {
         isLoading = true;
+        errorMessage = null;
         try
         {
+            Logger.LogInformation("Sending data to the API...");
             // Data to be sent to the API
             var data = "Hello from Blazor Server";
             // Call the API service to post data
             var response = await ApiService.PostApiDataAsync(data);
             // Serialize the response to JSON format for display
             apiResponse = JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true });
+            Logger.LogInformation("Data sent successfully.");
+        }
+        catch (Exception ex)
+        {
+            // Handle the error and set the error message
+            errorMessage = $"An error occurred while sending data: {ex.Message}";
+            Logger.LogError(ex, "An error occurred while sending data.");
         }
         finally
         {
